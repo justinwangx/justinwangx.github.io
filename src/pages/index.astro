@@ -1,0 +1,33 @@
+---
+import Layout from "../layouts/Layout.astro";
+let allPosts = await Astro.glob("./content/*.md");
+
+const dateOptions: object = {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+};
+const formatPubDate = (pubDate: string) =>
+  new Date(pubDate).toLocaleDateString("en-US", dateOptions);
+---
+
+<Layout title="Welcome to Astro.">
+  <main>
+    <section>
+      {
+        allPosts.reverse().map((post) => (
+          <div class="post">
+            <p>{formatPubDate(post.frontmatter.pubDate)}</p>
+
+            <a href={post.url}>
+              <h4>{post.frontmatter.title}</h4>
+              <p>{post.frontmatter.description}</p>
+            </a>
+          </div>
+        ))
+      }
+    </section>
+  </main>
+</Layout>
+
+<style></style>
